@@ -1,0 +1,13 @@
+from datetime import datetime
+
+from sqlalchemy import DateTime, String
+from sqlalchemy.orm import Mapped, mapped_column
+
+from app.database.base import Base
+
+
+class SyncState(Base):
+    __tablename__ = "sync_state"
+
+    symbol: Mapped[str] = mapped_column(String(20), primary_key=True)
+    last_synced_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
