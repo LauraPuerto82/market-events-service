@@ -22,5 +22,9 @@ class Settings(BaseSettings):
     provider_a_api_key: str = "test-key"
     provider_b_api_key: str = "test-key"
 
+    # Application
+    log_level: str = "INFO"
+    env: str = "development"
+
 
 settings = Settings()
