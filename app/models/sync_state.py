@@ -10,4 +10,4 @@ class SyncState(Base):
     __tablename__ = "sync_state"
 
     symbol: Mapped[str] = mapped_column(String(20), primary_key=True)
-    last_synced_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    last_synced_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
