@@ -22,7 +22,7 @@ class SyncRepository:
             insert(SyncState)
             .values(symbol=symbol, last_synced_at=synced_at)
             .on_conflict_do_update(
-                constraint="synced_state_pkey",
+                index_elements=["symbol"],
                 set_={"last_synced_at": synced_at},
             )
         )
