@@ -31,6 +31,7 @@ exclude = ["alembic/versions/"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+ignore = ["B008"]  # FastAPI uses Depends() in function defaults by design
 
 [tool.mypy]
 python_version = "3.12"

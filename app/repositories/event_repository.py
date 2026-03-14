@@ -1,5 +1,6 @@
 from datetime import date
 from typing import Any
+from uuid import UUID
 
 from sqlalchemy import and_, func, select, true
 from sqlalchemy.dialects.postgresql import insert
@@ -71,3 +72,7 @@ class EventRepository:
         events = (await self.session.execute(data_stmt)).scalars().all()
 
         return list(events), total
+
+    async def find_by_id(self, event_id: UUID) -> MarketEvent | None:
+        stmt = select(MarketEvent).where(MarketEvent.id == event_id)
+        return (await self.session.execute(stmt)).scalar_one_or_none()
