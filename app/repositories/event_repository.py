@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import UTC, date, datetime
 from typing import Any
 from uuid import UUID
 
@@ -15,6 +15,7 @@ class EventRepository:
         self.session = session
 
     async def upsert(self, event: NormalizedEvent) -> tuple[MarketEvent, bool]:
+        now = datetime.now(UTC)
         stmt = (
             insert(MarketEvent)
             .values(
@@ -25,6 +26,8 @@ class EventRepository:
                 details=event.details,
                 source=event.source,
                 source_event_id=event.source_event_id,
+                created_at=now,
+                updated_at=now,
             )
             .on_conflict_do_update(
                 constraint="uq_event_natural_key",
@@ -36,7 +39,7 @@ class EventRepository:
             )
             .returning(MarketEvent)
         )
-        result = await self.session.execute(stmt)
+        result = await self.session.execute(stmt, execution_options={"populate_existing": True})
         await self.session.commit()
         saved = result.scalar_one()
         created = saved.created_at == saved.updated_at
