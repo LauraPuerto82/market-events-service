@@ -29,14 +29,14 @@ class SyncService:
         updated_total = 0
 
         for symbol in symbols:
-            # Check colddown
+            # Check cooldown
             if not force:
                 last_synced = await self.sync_repo.get_last_synced(symbol)
                 if last_synced and (datetime.now(UTC) - last_synced) < SYNC_COOLDOWN:
                     skipped.append(symbol)
                     continue
 
-            # Fetch from both providers simultaneosly
+            # Fetch from both providers simultaneously
             results = await asyncio.gather(
                 self._fetch_provider_a([symbol]),
                 self._fetch_provider_b([symbol]),
@@ -68,7 +68,7 @@ class SyncService:
             await self.sync_repo.set_last_synced(symbol, datetime.now(UTC))
             synced.append(symbol)
 
-            await self.cache.invalidate_prefix("events:")
+        await self.cache.invalidate_prefix("events:")
 
         return SyncResponse(
             status="completed",

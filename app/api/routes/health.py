@@ -4,7 +4,7 @@ from sqlalchemy import text
 
 from app.database.session import AsyncSessionLocal
 
-router = APIRouter(tags=["health"])
+router = APIRouter(prefix="/api/v1", tags=["health"])
 
 
 @router.get("/health")
