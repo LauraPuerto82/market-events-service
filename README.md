@@ -126,19 +126,24 @@ If something's unclear, document your assumptions and move on.
 ### Setup
 
 ```bash
-# 1. Start PostgreSQL and Redis
+# 1. Clone the repository
+git clone https://github.com/LauraPuerto82/market-events-service.git
+cd market-events-service
+
+# 2. Start PostgreSQL and Redis
 docker-compose up -d
 
-# 2. Copy environment variables
-cp .env.example .env
+# 3. Copy environment variables
+cp .env.example .env        # Linux/macOS
+copy .env.example .env      # Windows
 
-# 3. Install dependencies
+# 4. Install dependencies
 poetry install
 
-# 4. Run database migrations
+# 5. Run database migrations
 poetry run alembic upgrade head
 
-# 5. Start the service
+# 6. Start the service
 poetry run uvicorn app.main:app --reload
 ```
 
